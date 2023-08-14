@@ -9,22 +9,27 @@ import { RootState } from "./store";
 
 export type AuthState = {
   token: string | null;
+  term: boolean;
   //   isLogin: boolean;
 };
 
-const inititalState: AuthState = {
+const initialState: AuthState = {
   token: null,
+  term: false,
 };
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: inititalState,
+  initialState: initialState,
   reducers: {
     setAuthToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
     removeAuthToken: (state) => {
       state.token = null;
+    },
+    setTerm: (state, action: PayloadAction<boolean>) => {
+      state.term = action.payload;
     },
   },
   extraReducers(builder) {
@@ -38,5 +43,6 @@ export const authSlice = createSlice({
 });
 
 export const selectAuthToken = (state: RootState) => state.auth.token;
+export const selectTerm = (state: RootState) => state.auth.term;
 
-export const { removeAuthToken } = authSlice.actions;
+export const { removeAuthToken, setTerm, setAuthToken } = authSlice.actions;

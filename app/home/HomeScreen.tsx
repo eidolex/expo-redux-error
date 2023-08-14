@@ -1,10 +1,21 @@
 import { View, Text, Button } from "react-native";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { removeAuthToken } from "../../store/auth";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { removeAuthToken, selectTerm } from "../../store/auth";
+import { IRootStackScreenProps } from "../AppNavigation";
 
-export default function HomeScreen() {
-  const dispatch = useDispatch();
+export default function HomeScreen({
+  navigation,
+}: IRootStackScreenProps<"home">) {
+  // const dispatch = useDispatch();
+  const term = useSelector(selectTerm);
+
+  useEffect(() => {
+    if (!term) {
+      navigation.replace("term");
+    }
+  }, [term]);
+
   return (
     <View>
       <Text>HomeScreen</Text>
@@ -12,7 +23,7 @@ export default function HomeScreen() {
       <Button
         title="logout"
         onPress={() => {
-          dispatch(removeAuthToken());
+          // dispatch(removeAuthToken());
         }}
       />
     </View>

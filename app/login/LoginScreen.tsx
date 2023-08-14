@@ -1,32 +1,46 @@
 import { View, Text, Button, Modal, ActivityIndicator } from "react-native";
 import React from "react";
 import { useLoginMutation } from "../../store/api";
+import { IRootStackScreenProps } from "../AppNavigation";
+import { useDispatch } from "react-redux";
+import { setAuthToken } from "../../store/auth";
 
-export default function LoginScreen() {
+export default function LoginScreen({
+  navigation,
+}: IRootStackScreenProps<"login">) {
+  const dispatch = useDispatch();
   const [login, { isLoading }] = useLoginMutation();
   return (
     <View>
-      <View style={{ marginBottom: 32 }}>
+      <View style={{ marginBottom: 16 }}>
         <Button
           title="Login Success"
           disabled={isLoading}
+          onPress={() => {
+            console.log("here");
+            dispatch(setAuthToken("testing"));
+          }}
+        />
+      </View>
+
+      <View style={{ marginBottom: 16 }}>
+        <Button
+          title="Login Error"
+          disabled={isLoading}
           onPress={() =>
             login({
-              username: "09254025253",
+              username: "09254052523",
               password: "12345678",
             })
           }
         />
       </View>
+
       <Button
-        title="Login Error"
-        disabled={isLoading}
-        onPress={() =>
-          login({
-            username: "09254052523",
-            password: "12345678",
-          })
-        }
+        title="Term"
+        onPress={() => {
+          navigation.navigate("term");
+        }}
       />
       <Modal visible={isLoading} transparent>
         <View
